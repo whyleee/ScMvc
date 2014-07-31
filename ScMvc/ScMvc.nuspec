@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://github.com/whyleee/ScMvc</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>- Page editor helpers
+- Simple poco mapper
+- Item model binding
+- Image, link models, wrapper-links
+- View renderings support
+    </releaseNotes>
+    <copyright>Copyright © Pavel Nezhencev (Creuna) 2014</copyright>
+    <tags>Sitecore CMS pure MVC support view models page editor mapper binding</tags>
+  </metadata>
+</package>
