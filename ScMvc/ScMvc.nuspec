@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package >
+<package>
   <metadata>
     <id>$id$</id>
     <version>$version$</version>
@@ -18,4 +18,7 @@
     <copyright>Copyright © Pavel Nezhencev (Creuna) 2014</copyright>
     <tags>Sitecore CMS pure MVC support view models page editor mapper binding</tags>
   </metadata>
+  <files>
+    <file src="App_Config\Include\SitecorePatch.ScMvc.config" target="content\App_Config\Include"/>
+  </files>
 </package>
