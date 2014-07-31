@@ -94,7 +94,7 @@ namespace ScMvc
                 ));
             }
 
-            var renderer = new ViewModelFieldRenderer
+            var renderer = new ModelFieldRenderer
             {
                 Item = model.Item,
                 FieldName = renderFieldName,

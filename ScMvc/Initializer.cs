@@ -15,7 +15,7 @@ namespace ScMvc
         {
             ValueProviderFactories.Factories.Add(new SitecoreItemValueProviderFactory());
             ModelBinderProviders.BinderProviders.Add(new SitecoreItemModelBinderProvider());
-            GlobalFilters.Filters.Add(new SitecorePageEditorActionFilter());
+            GlobalFilters.Filters.Add(new FillEmptyModelFieldsInPageEditorActionFilter());
         }
     }
 }

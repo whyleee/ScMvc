@@ -9,7 +9,7 @@ using Sitecore.Data.Items;
 
 namespace ScMvc.Models.Mappers
 {
-    public class DbSitecoreItemMapper
+    public class SitecoreItemToEditableModelMapper
     {
         public virtual T Map<T>(Item item) where T : IEditableItemModel
         {
@@ -70,11 +70,11 @@ namespace ScMvc.Models.Mappers
                 }
                 else if (property.PropertyType == typeof(Image))
                 {
-                    value = new ImageFieldModelMapper().ToModel(field);
+                    value = new ImageFieldToModelMapper().ToModel(field);
                 }
                 else if (property.PropertyType == typeof(Link))
                 {
-                    value = new LinkFieldModelMapper().ToModel(field);
+                    value = new LinkFieldToModelMapper().ToModel(field);
                 }
                 else if (property.PropertyType.Is(typeof(IEnumerable<ID>)))
                 {

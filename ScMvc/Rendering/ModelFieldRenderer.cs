@@ -12,7 +12,7 @@ using Sitecore.Xml.Xsl;
 
 namespace ScMvc.Rendering
 {
-    public class ViewModelFieldRenderer : FieldRenderer
+    public class ModelFieldRenderer : FieldRenderer
     {
         public string DefaultText { get; set; }
 
@@ -34,7 +34,7 @@ namespace ScMvc.Rendering
             {
                 webeditParams.Add(param.Key, param.Value.ToString());
             }
-            var renderFieldArgs = new ViewModelRenderFieldArgs
+            var renderFieldArgs = new ModelRenderFieldArgs
             {
                 Model = model,
                 After = this.After,

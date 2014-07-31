@@ -7,7 +7,7 @@ using Sitecore.Resources.Media;
 
 namespace ScMvc.Models.Mappers
 {
-    public class ImageFieldModelMapper
+    public class ImageFieldToModelMapper
     {
         public virtual Image ToModel(ImageField field)
         {

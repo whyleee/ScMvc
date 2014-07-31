@@ -84,28 +84,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Initializer.cs" />
-    <Compile Include="Models\Mappers\DbSitecoreItemMapper.cs" />
+    <Compile Include="Models\Mappers\SitecoreItemToEditableModelMapper.cs" />
     <Compile Include="Models\Processors\IModelProcessor.cs" />
     <Compile Include="Models\Processors\PropertyModelProcessor.cs" />
-    <Compile Include="Rendering\SitecorePageEditorPropertyModelProcessor.cs" />
+    <Compile Include="Rendering\FillEmptyFieldsInPageEditorModelProcessor.cs" />
     <Compile Include="HtmlExtensions.cs" />
     <Compile Include="Models\ICustomizableModel.cs" />
     <Compile Include="Models\IEditableItemModel.cs" />
     <Compile Include="Models\IEditableModel.cs" />
-    <Compile Include="Models\Mappers\ImageFieldModelMapper.cs" />
+    <Compile Include="Models\Mappers\ImageFieldToModelMapper.cs" />
     <Compile Include="Models\IRenderToTag.cs" />
     <Compile Include="Models\ITemplatedModel.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Link.cs" />
-    <Compile Include="Models\Mappers\LinkFieldModelMapper.cs" />
-    <Compile Include="Models\ModelHtmlExtensions.cs" />
-    <Compile Include="Pipelines\InitializeEditableItemModelFromDb.cs" />
+    <Compile Include="Models\Mappers\LinkFieldToModelMapper.cs" />
+    <Compile Include="Models\ModelExtensions.cs" />
+    <Compile Include="Pipelines\InitializeEditableModelFromItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Binding\SitecoreItemModelBinder.cs" />
     <Compile Include="Binding\SitecoreItemValueProvider.cs" />
-    <Compile Include="Rendering\SitecorePageEditorActionFilter.cs" />
-    <Compile Include="Rendering\ViewModelFieldRenderer.cs" />
-    <Compile Include="Rendering\ViewModelRenderFieldArgs.cs" />
+    <Compile Include="Rendering\FillEmptyModelFieldsInPageEditorActionFilter.cs" />
+    <Compile Include="Rendering\ModelFieldRenderer.cs" />
+    <Compile Include="Rendering\ModelRenderFieldArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

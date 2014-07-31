@@ -9,11 +9,11 @@ using ScMvc.Models.Processors;
 
 namespace ScMvc.Rendering
 {
-    public class SitecorePageEditorPropertyModelProcessor : PropertyModelProcessor
+    public class FillEmptyFieldsInPageEditorModelProcessor : PropertyModelProcessor
     {
         private readonly Settings _settings;
 
-        public SitecorePageEditorPropertyModelProcessor(Settings settings = null)
+        public FillEmptyFieldsInPageEditorModelProcessor(Settings settings = null)
         {
             _settings = settings ?? new Settings();
         }

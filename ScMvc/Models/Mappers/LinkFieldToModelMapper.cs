@@ -9,7 +9,7 @@ using Sitecore.Resources.Media;
 
 namespace ScMvc.Models.Mappers
 {
-    public class LinkFieldModelMapper
+    public class LinkFieldToModelMapper
     {
         public virtual Link ToModel(LinkField field)
         {

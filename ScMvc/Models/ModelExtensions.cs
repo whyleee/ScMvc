@@ -7,9 +7,9 @@ using Perks;
 
 namespace ScMvc.Models
 {
-    public static class ModelHtmlExtensions
+    public static class ModelExtensions
     {
-        public static IDictionary<string, object> ParseAttributes(this object model, IDictionary<string, object> attributes)
+        public static IDictionary<string, object> ParseAttributes(this ICustomizableModel model, IDictionary<string, object> attributes)
         {
             var otherAttributes = new Dictionary<string, object>();
 
@@ -19,9 +19,9 @@ namespace ScMvc.Models
 
                 if (prop != null)
                 {
-                    if (model is ICustomizableModel && attr.Key.ToLower() == "class" && ((ICustomizableModel)model).Class.IsNotNullOrEmpty())
+                    if (attr.Key.ToLower() == "class" && model.Class.IsNotNullOrEmpty())
                     {
-                        ((ICustomizableModel)model).Class += " " + attr.Value;
+                        model.Class += " " + attr.Value;
                     }
                     else
                     {

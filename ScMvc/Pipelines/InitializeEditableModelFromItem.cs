@@ -11,9 +11,9 @@ using Sitecore.Mvc.Pipelines.Response.GetModel;
 
 namespace ScMvc.Pipelines
 {
-    public class InitializeEditableItemModelFromDb : GetModelProcessor
+    public class InitializeEditableModelFromItem : GetModelProcessor
     {
-        private readonly PropertyModelProcessor _modelProcessor = new SitecorePageEditorPropertyModelProcessor();
+        private readonly PropertyModelProcessor _modelProcessor = new FillEmptyFieldsInPageEditorModelProcessor();
 
         public override void Process(GetModelArgs args)
         {
@@ -39,7 +39,7 @@ namespace ScMvc.Pipelines
             }
 
             var modelType = args.Result.GetType();
-            var model = new DbSitecoreItemMapper().Map(item, modelType);
+            var model = new SitecoreItemToEditableModelMapper().Map(item, modelType);
 
             _modelProcessor.Process(model);
 
