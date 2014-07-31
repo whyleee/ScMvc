@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -10,13 +11,16 @@ using System.Web.Mvc.Html;
 using System.Web.Routing;
 using Perks;
 using Perks.Mvc;
+using ScMvc.Models;
+using ScMvc.Rendering;
 
 namespace ScMvc
 {
     public static class HtmlExtensions
     {
-        public static IHtmlString Editable<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, string fieldName = null, string use = null, IEditableModel model = null, object @params = null)
-            where TModel : IEditableModel
+        public static IHtmlString Editable<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression,
+            string fieldName = null, string display = null, IEditableItemModel model = null, object @params = null)
+            where TModel : IEditableItemModel
         {
             if (model == null)
             {
@@ -31,7 +35,7 @@ namespace ScMvc
                 value = Activator.CreateInstance<TValue>();
             }
 
-            SetParams(value, @params);
+            value = GetCopyWithParams(value, @params, isComplexField);
 
             if (!model.IsEditMode)
             {
@@ -54,10 +58,10 @@ namespace ScMvc
                     return html.DisplayFor(expression, template, @params);
                 }
 
-                // TODO: 'use' param is only supported for strings for now
-                if (use != null)
+                // TODO: 'display' param is only supported for strings for now
+                if (display != null)
                 {
-                    return use.ToHtml();
+                    return display.ToHtml();
                 }
 
                 return value != null ? value.ToString().ToHtml() : null;
@@ -102,20 +106,59 @@ namespace ScMvc
             {
                 ((IEditableModel)value).IsEditMode = true;
             }
-            if (use != null)
+            if (display != null)
             {
-                renderer.OverrideFieldValue(use);
+                renderer.OverrideFieldValue(display);
             }
 
             var output = renderer.Render(value, @params);
             return output.ToHtml();
         }
 
-        private static void SetParams(object value, object @params)
+        public static IDisposable WrapIn<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, IRenderToTag>> expression, object @params = null)
         {
+            var value = expression.Compile()(html.ViewData.Model);
+
+            if (value == null)
+            {
+                return null;
+            }
+
+            value = GetCopyWithParams(value, @params, isComplexValue: true);
+            html.ViewContext.Writer.Write(value.StartTag());
+
+            return new EndTagWriter(html.ViewContext.Writer, value.EndTag());
+        }
+
+        private static T GetCopyWithParams<T>(T value, object @params, bool isComplexValue)
+        {
+            if (isComplexValue && value is ICloneable)
+            {
+                value = (T) ((ICloneable)value).Clone();
+            }
+
             if (value is ICustomizableModel)
             {
                 ((ICustomizableModel)value).Attributes = new RouteValueDictionary(@params);
+            }
+
+            return value;
+        }
+
+        private sealed class EndTagWriter : IDisposable
+        {
+            private readonly TextWriter _writer;
+            private readonly IHtmlString _endTag;
+
+            public EndTagWriter(TextWriter writer, IHtmlString endTag)
+            {
+                _writer = writer;
+                _endTag = endTag;
+            }
+
+            public void Dispose()
+            {
+                _writer.Write(_endTag);
             }
         }
     }

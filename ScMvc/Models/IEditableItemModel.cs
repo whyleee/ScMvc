@@ -5,12 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Sitecore.Data.Items;
 
-namespace ScMvc
+namespace ScMvc.Models
 {
-    public interface IEditableModel
+    public interface IEditableItemModel : IEditableModel
     {
         Item Item { get; set; }
-
-        bool IsEditMode { get; set; }
     }
 }

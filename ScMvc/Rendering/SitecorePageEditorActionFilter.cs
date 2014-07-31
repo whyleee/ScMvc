@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
-using ScMvc.Framework;
 
-namespace ScMvc
+namespace ScMvc.Rendering
 {
     public class SitecorePageEditorActionFilter : ActionFilterAttribute
     {

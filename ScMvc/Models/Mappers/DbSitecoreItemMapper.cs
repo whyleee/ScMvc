@@ -2,29 +2,39 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Perks;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 
-namespace ScMvc
+namespace ScMvc.Models.Mappers
 {
     public class DbSitecoreItemMapper
     {
-        public virtual T Map<T>(Item item) where T : IEditableModel
+        public virtual T Map<T>(Item item) where T : IEditableItemModel
         {
-            var to = typeof (T);
-            var target = (T) Activator.CreateInstance(to);
+            return (T) Map(item, typeof (T));
+        }
 
-            target.Item = item;
-            target.IsEditMode = Sitecore.Context.PageMode.IsPageEditorEditing;
+        public virtual IEditableItemModel Map(Item item, Type to)
+        {
+            Ensure.ArgumentNotNull(to, "to");
+
+            if (!to.Is(typeof (IEditableItemModel)))
+            {
+                throw new ArgumentException(string.Format("Target type should implement '{0}' interface", to.FullName), "to");
+            }
+
+            var target = (IEditableItemModel) Activator.CreateInstance(to);
+            var isEditMode = Sitecore.Context.PageMode.IsPageEditorEditing;
 
             if (item == null)
             {
                 return target;
             }
+
+            target.Item = item;
+            target.IsEditMode = isEditMode;
 
             foreach (var property in to.GetProperties())
             {
@@ -58,14 +68,14 @@ namespace ScMvc
                 {
                     value = ((DateField)field).DateTime;
                 }
-                //else if (property.PropertyType == typeof(Image))
-                //{
-                //    value = new ImageFieldModelMapper().ToModel(field);
-                //}
-                //else if (property.PropertyType == typeof(Link))
-                //{
-                //    value = new LinkFieldModelMapper().ToModel(field);
-                //}
+                else if (property.PropertyType == typeof(Image))
+                {
+                    value = new ImageFieldModelMapper().ToModel(field);
+                }
+                else if (property.PropertyType == typeof(Link))
+                {
+                    value = new LinkFieldModelMapper().ToModel(field);
+                }
                 else if (property.PropertyType.Is(typeof(IEnumerable<ID>)))
                 {
                     value = GetIds(fieldValue);

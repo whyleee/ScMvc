@@ -1,6 +1,6 @@
 using Sitecore.Pipelines.RenderField;
 
-namespace ScMvc
+namespace ScMvc.Rendering
 {
     public class ViewModelRenderFieldArgs : RenderFieldArgs
     {

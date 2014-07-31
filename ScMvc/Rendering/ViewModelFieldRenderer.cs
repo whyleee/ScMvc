@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Routing;
 using Perks;
 using Sitecore.Collections;
@@ -12,7 +10,7 @@ using Sitecore.Web;
 using Sitecore.Web.UI.WebControls;
 using Sitecore.Xml.Xsl;
 
-namespace ScMvc
+namespace ScMvc.Rendering
 {
     public class ViewModelFieldRenderer : FieldRenderer
     {

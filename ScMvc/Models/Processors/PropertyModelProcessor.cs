@@ -3,12 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using Perks;
 
-namespace ScMvc.Framework
+namespace ScMvc.Models.Processors
 {
     public abstract class PropertyModelProcessor : IModelProcessor
     {
@@ -34,6 +32,11 @@ namespace ScMvc.Framework
                 return;
             }
 
+            Process(model);
+        }
+
+        public virtual void Process(object model)
+        {
             Prepare(model);
             ProcessModel(model);
         }

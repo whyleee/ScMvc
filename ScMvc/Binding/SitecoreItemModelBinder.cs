@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using Perks;
 using Sitecore.Data.Items;
 
-namespace ScMvc
+namespace ScMvc.Binding
 {
     public class SitecoreItemModelBinder : IModelBinder
     {

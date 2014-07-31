@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Perks;
+using ScMvc.Models;
+using ScMvc.Models.Processors;
 
-namespace ScMvc.Framework
+namespace ScMvc.Rendering
 {
     public class SitecorePageEditorPropertyModelProcessor : PropertyModelProcessor
     {
@@ -22,7 +22,7 @@ namespace ScMvc.Framework
         {
             public Settings()
             {
-                ShouldBeHandled = mt => mt.Is<IEditableModel>();
+                ShouldBeHandled = mt => mt.Is<IEditableItemModel>();
             }
 
             public Func<Type, bool> ShouldBeHandled { get; set; }
@@ -52,6 +52,14 @@ namespace ScMvc.Framework
             else if (property.PropertyType == typeof (DateTime) && (DateTime) value == DateTime.MinValue)
             {
                 property.SetValue(model, DateTime.Now);
+            }
+            else if (property.PropertyType == typeof (Image))
+            {
+                property.SetValue(model, new Image());
+            }
+            else if (property.PropertyType == typeof (Link))
+            {
+                property.SetValue(model, new Link());
             }
             else if (property.PropertyType.Is<IEnumerable>() && (value == null || !((IEnumerable) value).Cast<object>().Any()))
             {
