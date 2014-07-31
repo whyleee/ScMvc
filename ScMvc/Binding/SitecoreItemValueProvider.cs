@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using Perks;
+using ScMvc.Aids;
 using Sitecore.Data.Items;
 using Sitecore.Mvc.Presentation;
 
@@ -49,7 +49,7 @@ namespace ScMvc.Binding
         {
             var dataSource = rendering.DataSource;
 
-            if (dataSource.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(dataSource))
             {
                 return null;
             }

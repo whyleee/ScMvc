@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Perks;
-using Perks.Mvc;
+using ScMvc.Aids;
 
 namespace ScMvc.Models
 {
@@ -74,29 +73,29 @@ namespace ScMvc.Models
 
         public IHtmlString StartTag()
         {
-            return ToHtml(TagRenderMode.StartTag).ToHtml();
+            return new HtmlString(ToHtml(TagRenderMode.StartTag));
         }
 
         public IHtmlString EndTag()
         {
-            return ToHtml(TagRenderMode.EndTag).ToHtml();
+            return new HtmlString(ToHtml(TagRenderMode.EndTag));
         }
 
         private string ToHtml(TagRenderMode renderMode)
         {
-            if (Url.IsNullOrEmpty() && Text.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(Url) && string.IsNullOrEmpty(Text))
             {
                 return null;
             }
 
             TagBuilder tag;
 
-            if (Url.IsNotNullOrEmpty() || IsEditMode)
+            if (!string.IsNullOrEmpty(Url) || IsEditMode)
             {
                 tag = new TagBuilder("a");
                 tag.Attributes.Add("href", Url);
 
-                if (Target.IsNotNullOrEmpty() && Target != "_self")
+                if (!string.IsNullOrEmpty(Target) && Target != "_self")
                 {
                     tag.Attributes.Add("target", Target);
                 }
@@ -135,12 +134,12 @@ namespace ScMvc.Models
             }
             //}
 
-            if (Title.IsNotNullOrEmpty())
+            if (!string.IsNullOrEmpty(Title))
             {
                 tag.Attributes.Add("title", Title);
             }
 
-            if (Class.IsNotNullOrEmpty())
+            if (!string.IsNullOrEmpty(Class))
             {
                 tag.AddCssClass(Class);
             }

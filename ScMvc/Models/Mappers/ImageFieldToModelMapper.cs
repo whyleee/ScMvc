@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Perks;
 using Sitecore.Data.Fields;
 using Sitecore.Resources.Media;
 
@@ -11,7 +10,7 @@ namespace ScMvc.Models.Mappers
     {
         public virtual Image ToModel(ImageField field)
         {
-            if (field.Value.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(field.Value))
             {
                 return null;
             }

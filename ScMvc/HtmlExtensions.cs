@@ -9,8 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
-using Perks;
-using Perks.Mvc;
+using ScMvc.Aids;
 using ScMvc.Models;
 using ScMvc.Rendering;
 
@@ -61,10 +60,10 @@ namespace ScMvc
                 // TODO: 'display' param is only supported for strings for now
                 if (display != null)
                 {
-                    return display.ToHtml();
+                    return new HtmlString(display);
                 }
 
-                return value != null ? value.ToString().ToHtml() : null;
+                return value != null ? new HtmlString(value.ToString()) : null;
             }
 
             // TODO: hack for now
@@ -112,7 +111,7 @@ namespace ScMvc
             }
 
             var output = renderer.Render(value, @params);
-            return output.ToHtml();
+            return new HtmlString(output);
         }
 
         public static IDisposable WrapIn<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, IRenderToTag>> expression, object @params = null)

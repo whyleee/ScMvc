@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Perks;
 using ScMvc.Models;
 using ScMvc.Models.Mappers;
 using ScMvc.Models.Processors;
@@ -28,7 +27,7 @@ namespace ScMvc.Pipelines
 
             Item item = null;
 
-            if (args.Rendering.DataSource.IsNotNullOrEmpty())
+            if (!string.IsNullOrEmpty(args.Rendering.DataSource))
             {
                 item = Sitecore.Context.Database.GetItem(args.Rendering.DataSource);
             }

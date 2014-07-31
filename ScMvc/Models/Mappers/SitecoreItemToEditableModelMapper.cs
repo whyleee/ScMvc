@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Perks;
+using ScMvc.Aids;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
@@ -58,11 +58,11 @@ namespace ScMvc.Models.Mappers
                 }
                 else if (property.PropertyType == typeof(int))
                 {
-                    value = fieldValue.IsNullOrEmpty() ? 0 : int.Parse(fieldValue, CultureInfo.InvariantCulture);
+                    value = string.IsNullOrEmpty(fieldValue) ? 0 : int.Parse(fieldValue, CultureInfo.InvariantCulture);
                 }
                 else if (property.PropertyType == typeof(double))
                 {
-                    value = fieldValue.IsNullOrEmpty() ? 0d : double.Parse(fieldValue, CultureInfo.InvariantCulture);
+                    value = string.IsNullOrEmpty(fieldValue) ? 0d : double.Parse(fieldValue, CultureInfo.InvariantCulture);
                 }
                 else if (property.PropertyType == typeof(DateTime))
                 {

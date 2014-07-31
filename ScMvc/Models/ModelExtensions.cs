@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Perks;
+using ScMvc.Aids;
 
 namespace ScMvc.Models
 {
@@ -19,7 +19,7 @@ namespace ScMvc.Models
 
                 if (prop != null)
                 {
-                    if (attr.Key.ToLower() == "class" && model.Class.IsNotNullOrEmpty())
+                    if (attr.Key.ToLower() == "class" && !string.IsNullOrEmpty(model.Class))
                     {
                         model.Class += " " + attr.Value;
                     }

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Perks;
 
 namespace ScMvc.Models
 {
@@ -86,15 +85,15 @@ namespace ScMvc.Models
 
         public string ToHtml(bool addMediaQueryToUrl, bool renderOrigSizes)
         {
-            if (Src.IsNullOrEmpty() && FallbackSrc.IsNotNullOrEmpty())
+            if (string.IsNullOrEmpty(Src) && !string.IsNullOrEmpty(FallbackSrc))
             {
                 Src = FallbackSrc;
             }
-            if (IsEditMode && Src.IsNullOrEmpty())
+            if (IsEditMode && string.IsNullOrEmpty(Src))
             {
                 Src = "/sitecore/shell/Themes/Standard/Images/WebEdit/default_image.png";
             }
-            if (Src.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(Src))
             {
                 return null;
             }
@@ -102,7 +101,7 @@ namespace ScMvc.Models
             var img = new TagBuilder("img");
             img.Attributes.Add("src", Src ?? "");
 
-            if (Alt.IsNotNullOrEmpty())
+            if (!string.IsNullOrEmpty(Alt))
             {
                 img.Attributes.Add("alt", Alt);
             }
@@ -141,7 +140,7 @@ namespace ScMvc.Models
 
             // TODO: vspace/hspace are not supported (what if we use cropX and cropY here for editors)?
 
-            if (Class.IsNotNullOrEmpty())
+            if (!string.IsNullOrEmpty(Class))
             {
                 img.AddCssClass(Class);
             }

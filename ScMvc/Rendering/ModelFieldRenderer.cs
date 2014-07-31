@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Routing;
-using Perks;
 using Sitecore.Collections;
 using Sitecore.Data.Items;
 using Sitecore.Pipelines;
@@ -57,7 +56,7 @@ namespace ScMvc.Rendering
             {
                 renderFieldArgs.DisableWebEdit = true;
             }
-            if (DefaultText.IsNotNullOrEmpty())
+            if (!string.IsNullOrEmpty(DefaultText))
             {
                 renderFieldArgs.RenderParameters.Add("default-text", DefaultText);
             }

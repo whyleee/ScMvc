@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Perks;
+using System.Net;
+using ScMvc.Aids;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Links;
@@ -13,7 +14,7 @@ namespace ScMvc.Models.Mappers
     {
         public virtual Link ToModel(LinkField field)
         {
-            if (field.Value.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(field.Value))
             {
                 return null;
             }
@@ -59,13 +60,13 @@ namespace ScMvc.Models.Mappers
             }
 
             var queryString = field.QueryString;
-            if (queryString.IsNotNullOrEmpty())
+            if (!string.IsNullOrEmpty(queryString))
             {
-                link.Url += (link.Url.Contains('?') ? ':' : '?') + queryString.UrlDecode();
+                link.Url += (link.Url.Contains('?') ? ':' : '?') + WebUtility.UrlDecode(queryString);
             }
 
             var anchor = field.Anchor;
-            if (anchor.IsNotNullOrEmpty())
+            if (!string.IsNullOrEmpty(anchor))
             {
                 link.Url += '#' + anchor;
             }
