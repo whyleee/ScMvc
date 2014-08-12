@@ -53,11 +53,11 @@ namespace ScMvc.Rendering
             {
                 property.SetValue(model, DateTime.Now);
             }
-            else if (property.PropertyType == typeof (Image))
+            else if (property.PropertyType == typeof (Image) && value == null)
             {
                 property.SetValue(model, new Image());
             }
-            else if (property.PropertyType == typeof (Link))
+            else if (property.PropertyType == typeof (Link) && value == null)
             {
                 property.SetValue(model, new Link());
             }
