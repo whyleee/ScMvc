@@ -107,7 +107,9 @@
     <None Include="app.config" />
     <None Include="App_Config\Include\SitecorePatch.ScMvc.config" />
     <None Include="packages.config" />
-    <None Include="ScMvc.nuspec" />
+    <None Include="ScMvc.nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
