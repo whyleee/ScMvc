@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web.Routing;
 using Sitecore.Collections;
 using Sitecore.Data.Items;
+using Sitecore.Diagnostics;
 using Sitecore.Pipelines;
+using Sitecore.Pipelines.RenderField;
 using Sitecore.Web;
 using Sitecore.Web.UI.WebControls;
 using Sitecore.Xml.Xsl;
@@ -13,6 +16,8 @@ namespace ScMvc.Rendering
 {
     public class ModelFieldRenderer : FieldRenderer
     {
+        private string fieldValue = string.Empty;
+
         public string DefaultText { get; set; }
 
         public string Render(object model, object @params)
@@ -60,12 +65,20 @@ namespace ScMvc.Rendering
             {
                 renderFieldArgs.RenderParameters.Add("default-text", DefaultText);
             }
-            //if (!string.IsNullOrEmpty(this.fieldValue))
-            //{
-            //    renderFieldArgs.FieldValue = this.fieldValue;
-            //}
+            if (!string.IsNullOrEmpty(this.fieldValue))
+            {
+                typeof(RenderFieldArgs)
+                    .GetProperty("FieldValue", BindingFlags.Instance | BindingFlags.Public)
+                    .SetValue(renderFieldArgs, this.fieldValue);
+            }
             CorePipeline.Run("renderField", renderFieldArgs);
             return renderFieldArgs.Result;
+        }
+
+        public void OverrideFieldValue(string value)
+        {
+            Assert.ArgumentNotNull(value, "value");
+            this.fieldValue = value;
         }
     }
 }
