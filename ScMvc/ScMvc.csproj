@@ -102,6 +102,8 @@
     <Compile Include="Rendering\FillEmptyModelFieldsInPageEditorActionFilter.cs" />
     <Compile Include="Rendering\ModelFieldRenderer.cs" />
     <Compile Include="Rendering\ModelRenderFieldArgs.cs" />
+    <Compile Include="Rendering\Pipelines\GetImageFieldValue.cs" />
+    <Compile Include="Rendering\Pipelines\GetLinkFieldValue.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

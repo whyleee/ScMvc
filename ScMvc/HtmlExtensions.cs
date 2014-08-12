@@ -54,6 +54,12 @@ namespace ScMvc
                         }
                     }
 
+                    // we can't use DisplayFor for link/image, because then @params are ignored
+                    if (value is ICustomizableModel && value is IHtmlString)
+                    {
+                        return ((IHtmlString) value);
+                    }
+
                     return html.DisplayFor(expression, template, @params);
                 }
 

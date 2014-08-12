@@ -9,9 +9,7 @@
     <projectUrl>https://github.com/whyleee/ScMvc</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>- Fixed image/link processing in the page-editor
-- Added support for overridden values in editable fields
-    </releaseNotes>
+    <releaseNotes>- Fixed image/link custom params support</releaseNotes>
     <copyright>Copyright © Pavel Nezhencev (Creuna) 2014</copyright>
     <tags>Sitecore CMS pure MVC support view models page editor mapper binding</tags>
   </metadata>
