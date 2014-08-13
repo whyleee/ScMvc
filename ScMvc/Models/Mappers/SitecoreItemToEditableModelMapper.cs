@@ -6,6 +6,7 @@ using ScMvc.Aids;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
+using Sitecore.Links;
 
 namespace ScMvc.Models.Mappers
 {
@@ -50,7 +51,14 @@ namespace ScMvc.Models.Mappers
 
                 if (property.PropertyType == typeof(string))
                 {
-                    value = fieldValue;
+                    if (field.TypeKey == "rich text" && !string.IsNullOrEmpty(fieldValue))
+                    {
+                        value = LinkManager.ExpandDynamicLinks(fieldValue);
+                    }
+                    else
+                    {
+                        value = fieldValue;
+                    }
                 }
                 else if (property.PropertyType == typeof(bool))
                 {
