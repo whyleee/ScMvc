@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/whyleee/ScMvc</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>- Friendly links rewriter for rich text fields</releaseNotes>
+    <releaseNotes>- Added view renderings context item data source support</releaseNotes>
     <copyright>Copyright © Pavel Nezhencev (Creuna) 2014</copyright>
     <tags>Sitecore CMS pure MVC support view models page editor mapper binding</tags>
   </metadata>
