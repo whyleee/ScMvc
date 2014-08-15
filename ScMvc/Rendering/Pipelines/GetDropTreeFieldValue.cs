@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Sitecore.Pipelines.RenderField;
 
 namespace ScMvc.Rendering.Pipelines
 {
-    public class GetDropLinkFieldValue
+    public class GetDropTreeFieldValue
     {
         public void Process(RenderFieldArgs args)
         {
-            if (args.FieldTypeKey != "droplink")
+            if (args.FieldTypeKey != "droptree")
             {
                 return;
             }
