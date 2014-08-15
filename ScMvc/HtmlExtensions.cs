@@ -26,7 +26,13 @@ namespace ScMvc
                 model = html.ViewData.Model;
             }
 
-            var value = expression.Compile()(html.ViewData.Model);
+            object value = expression.Compile()(html.ViewData.Model);
+
+            if (value is DateTime)
+            {
+                value = new Time((value as DateTime?).Value);
+            }
+
             var isComplexField = !(typeof(TValue).Is<string>() || typeof(TValue).IsPrimitive);
 
             if (isComplexField && value == null && model.IsEditMode)

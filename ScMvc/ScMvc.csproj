@@ -85,6 +85,7 @@
     <Compile Include="Models\Processors\IModelProcessor.cs" />
     <Compile Include="Models\Processors\PropertyModelProcessor.cs" />
     <Compile Include="Models\RenderingDataSourceAttribute.cs" />
+    <Compile Include="Models\Time.cs" />
     <Compile Include="Rendering\FillEmptyFieldsInPageEditorModelProcessor.cs" />
     <Compile Include="HtmlExtensions.cs" />
     <Compile Include="Models\ICustomizableModel.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Rendering\FillEmptyModelFieldsInPageEditorActionFilter.cs" />
     <Compile Include="Rendering\ModelFieldRenderer.cs" />
     <Compile Include="Rendering\ModelRenderFieldArgs.cs" />
+    <Compile Include="Rendering\Pipelines\GetDateFieldValue.cs" />
     <Compile Include="Rendering\Pipelines\GetDropLinkFieldValue.cs" />
     <Compile Include="Rendering\Pipelines\GetImageFieldValue.cs" />
     <Compile Include="Rendering\Pipelines\GetLinkFieldValue.cs" />
