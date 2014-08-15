@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="Aids\Ensure.cs" />
     <Compile Include="Aids\InternalHelpers.cs" />
+    <Compile Include="Aids\SitecoreUtil.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="Models\Mappers\SitecoreItemToEditableModelMapper.cs" />
     <Compile Include="Models\Processors\IModelProcessor.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Rendering\FillEmptyModelFieldsInPageEditorActionFilter.cs" />
     <Compile Include="Rendering\ModelFieldRenderer.cs" />
     <Compile Include="Rendering\ModelRenderFieldArgs.cs" />
+    <Compile Include="Rendering\Pipelines\GetDropLinkFieldValue.cs" />
     <Compile Include="Rendering\Pipelines\GetImageFieldValue.cs" />
     <Compile Include="Rendering\Pipelines\GetLinkFieldValue.cs" />
   </ItemGroup>
