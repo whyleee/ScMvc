@@ -66,6 +66,12 @@ namespace ScMvc
                         return ((IHtmlString) value);
                     }
 
+                    // TODO: 'display' param is only supported for strings for now
+                    if (display != null)
+                    {
+                        return new HtmlString(display);
+                    }
+
                     return html.DisplayFor(expression, template, @params);
                 }
 

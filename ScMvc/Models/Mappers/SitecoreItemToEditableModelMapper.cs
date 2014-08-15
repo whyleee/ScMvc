@@ -88,6 +88,13 @@ namespace ScMvc.Models.Mappers
                 {
                     value = GetIds(fieldValue);
                 }
+                else if (property.PropertyType.Is<IEditableItemModel>()
+                    && !string.IsNullOrEmpty(fieldValue)
+                    && (field.TypeKey == "droplink" || field.TypeKey == "droptree"))
+                {
+                    var linkedItem = Sitecore.Context.Database.GetItem(fieldValue);
+                    value = Map(linkedItem, property.PropertyType);
+                }
 
                 property.SetValue(target, value);
             }
