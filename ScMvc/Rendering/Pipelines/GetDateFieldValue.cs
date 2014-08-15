@@ -24,16 +24,16 @@ namespace ScMvc.Rendering.Pipelines
                 return;
             }
 
+            args.DisableWebEditContentEditing = true;
+            args.DisableWebEditFieldWrapping = true;
+            args.WebEditClick = "return Sitecore.WebEdit.editControl($JavascriptParameters,'webedit:editdate');";
+
             var html = ((Time) model).ToHtmlString();
 
             if (string.IsNullOrEmpty(html))
             {
                 return;
             }
-
-            args.DisableWebEditContentEditing = true;
-            args.DisableWebEditFieldWrapping = true;
-            args.WebEditClick = "return Sitecore.WebEdit.editControl($JavascriptParameters,'webedit:editdate');";
 
             args.Result.FirstPart = html;
         }

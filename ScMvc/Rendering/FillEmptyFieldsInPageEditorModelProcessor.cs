@@ -51,7 +51,7 @@ namespace ScMvc.Rendering
             }
             else if (property.PropertyType == typeof (DateTime) && (DateTime) value == DateTime.MinValue)
             {
-                property.SetValue(model, DateTime.Now);
+                property.SetValue(model, DateTime.MaxValue);
             }
             else if (property.PropertyType == typeof (Image) && value == null)
             {

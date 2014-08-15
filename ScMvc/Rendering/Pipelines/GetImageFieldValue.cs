@@ -36,16 +36,16 @@ namespace ScMvc.Rendering.Pipelines
                 return;
             }
 
+            args.DisableWebEditContentEditing = true;
+            args.DisableWebEditFieldWrapping = true;
+            args.WebEditClick = "return Sitecore.WebEdit.editControl($JavascriptParameters, 'webedit:chooseimage')";
+
             var html = model.ToHtmlString();
 
             if (string.IsNullOrEmpty(html))
             {
                 return;
             }
-
-            args.DisableWebEditContentEditing = true;
-            args.DisableWebEditFieldWrapping = true;
-            args.WebEditClick = "return Sitecore.WebEdit.editControl($JavascriptParameters, 'webedit:chooseimage')";
 
             args.Result.FirstPart = html;
         }

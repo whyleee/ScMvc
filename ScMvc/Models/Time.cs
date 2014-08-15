@@ -76,6 +76,11 @@ namespace ScMvc.Models
 
         public string ToHtml(TagRenderMode renderMode)
         {
+            if (Value == DateTime.MinValue || Value == DateTime.MaxValue)
+            {
+                return null;
+            }
+
             var tag = new TagBuilder("time");
 
             if (renderMode == TagRenderMode.EndTag)

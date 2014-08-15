@@ -23,6 +23,9 @@ namespace ScMvc.Rendering.Pipelines
                 return;
             }
 
+            args.DisableWebEditFieldWrapping = true;
+            args.DisableWebEditContentEditing = true;
+
             var html = ((Link) model).ToHtmlString();
 
             if (string.IsNullOrEmpty(html))
@@ -30,8 +33,6 @@ namespace ScMvc.Rendering.Pipelines
                 return;
             }
 
-            args.DisableWebEditFieldWrapping = true;
-            args.DisableWebEditContentEditing = true;
             args.Result.FirstPart = html;
         }
 
