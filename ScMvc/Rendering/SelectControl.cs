@@ -26,9 +26,11 @@ namespace ScMvc.Rendering
             var database = Sitecore.Context.ContentDatabase ?? Sitecore.Context.Database;
             
             var html = new StringBuilder();
+            var onchangeJs = "var chromeId = $(this).prev().attr('id').replace('_edit', '');" +
+                "Sitecore.PageModes.ChromeManager.updateField(chromeId, null, $(this).val(), true);";
 
-            html.AppendFormat("<select id=\"{0}\" class=\"scEnabledChrome\" sc-part-of=\"field\" onchange=\"Sitecore.PageModes.PageEditor.setModified(true)\">",
-                SitecoreUtil.GetWebEditingControlId(field)
+            html.AppendFormat("<select id=\"{0}\" class=\"scEnabledChrome\" sc-part-of=\"field\" onchange=\"{1}\">",
+                SitecoreUtil.GetWebEditingControlId(field), onchangeJs
             );
 
             var rootPath = GetRootPath(field);
@@ -43,6 +45,14 @@ namespace ScMvc.Rendering
 
         private void RenderOptions(IEnumerable<Item> options, StringBuilder html, Field field, string selectedOption, bool hierarchical, int level)
         {
+            if (level == 1)
+            {
+                var isNoValueSelected = string.IsNullOrEmpty(selectedOption) ? " selected" : "";
+                var fieldNameLowered = (field.DisplayName.IfNotNullOrEmpty() ?? field.Name).ToLower();
+
+                html.AppendFormat("<option value=\"\"{0}>[No {1}]</option>", isNoValueSelected, fieldNameLowered);
+            }
+
             foreach (var option in options)
             {
                 var displayText = GetDisplayText(option, field);
@@ -67,9 +77,14 @@ namespace ScMvc.Rendering
                     }
                 }
 
-                var isSelected = option.ID.ToString() == selectedOption;
-                html.AppendFormat("<option value=\"{0}\"{1}>{2}", option.ID, isSelected ? " selected" : "", indent + displayText);
+                RenderOption(option, html, selectedOption, indent + displayText);
             }
+        }
+
+        private void RenderOption(Item option, StringBuilder html, string selectedOption, string displayText)
+        {
+            var isSelected = option.ID.ToString() == selectedOption;
+            html.AppendFormat("<option value=\"{0}\"{1}>{2}</option>", option.ID, isSelected ? " selected" : "", displayText);
         }
 
         private string GetRootPath(Field field)

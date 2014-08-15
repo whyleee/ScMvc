@@ -72,6 +72,10 @@ namespace ScMvc.Rendering
                     
                 property.SetValue(model, collection);
             }
+            else if (property.PropertyType.Is<IEditableItemModel>())
+            {
+                property.SetValue(model, Activator.CreateInstance(property.PropertyType));
+            }
         }
     }
 }
