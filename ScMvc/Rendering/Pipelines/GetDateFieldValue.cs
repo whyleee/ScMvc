@@ -13,18 +13,18 @@ namespace ScMvc.Rendering.Pipelines
         public void Process(RenderFieldArgs args)
         {
             string fieldTypeKey = args.FieldTypeKey;
-            if (fieldTypeKey != "date" && fieldTypeKey != "datetime")
+            if ((fieldTypeKey != "date" && fieldTypeKey != "datetime") || !(args is ModelRenderFieldArgs))
             {
                 return;
             }
 
             var model = ((ModelRenderFieldArgs) args).Model;
-            if (!(model is DateTime))
+            if (!(model is Time))
             {
                 return;
             }
 
-            var html = new Time((DateTime) model).ToHtmlString();
+            var html = ((Time) model).ToHtmlString();
 
             if (string.IsNullOrEmpty(html))
             {
