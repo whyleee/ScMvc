@@ -15,30 +15,37 @@ namespace ScMvc.Rendering
         {
             var field = args.GetField();
             var hierarchical = args.FieldTypeKey == "droptree";
+
+            var language = Sitecore.Context.ContentLanguage;
+
+            if (string.IsNullOrEmpty(language.Name))
+            {
+                language = Sitecore.Context.Language;
+            }
+
+            var database = Sitecore.Context.ContentDatabase ?? Sitecore.Context.Database;
+            
             var html = new StringBuilder();
 
             html.AppendFormat("<select id=\"{0}\" class=\"scEnabledChrome\" sc-part-of=\"field\" onchange=\"Sitecore.PageModes.PageEditor.setModified(true)\">",
                 SitecoreUtil.GetWebEditingControlId(field)
             );
 
-            var language = Sitecore.Context.ContentLanguage;
-            var database = Sitecore.Context.ContentDatabase ?? Sitecore.Context.Database;
             var rootPath = GetRootPath(field);
-
             var rootItem = database.GetItem(rootPath, language);
             var selectedOption = args.Item[args.FieldName];
 
-            RenderOptions(rootItem.GetChildren(), html, selectedOption, hierarchical, level: 1);
+            RenderOptions(rootItem.GetChildren(), html, field, selectedOption, hierarchical, level: 1);
             html.Append("</select>");
 
             return html.ToString();
         }
 
-        private void RenderOptions(IEnumerable<Item> options, StringBuilder html, string selectedOption, bool hierarchical, int level)
+        private void RenderOptions(IEnumerable<Item> options, StringBuilder html, Field field, string selectedOption, bool hierarchical, int level)
         {
             foreach (var option in options)
             {
-                var displayText = option.DisplayName.IfNotNullOrEmpty() ?? option.Name;
+                var displayText = GetDisplayText(option, field);
                 var indent = "";
 
                 for (int i = 1; i < level; i++)
@@ -53,7 +60,7 @@ namespace ScMvc.Rendering
                     if (childOptions.Any())
                     {
                         html.AppendFormat("<optgroup label=\"{0}\">", indent + displayText);
-                        RenderOptions(childOptions, html, selectedOption, hierarchical, level + 1);
+                        RenderOptions(childOptions, html, field, selectedOption, hierarchical, level + 1);
                         html.Append("</optgroup>");
 
                         continue;
@@ -82,6 +89,20 @@ namespace ScMvc.Rendering
             }
 
             return null;
+        }
+
+        private string GetDisplayText(Item option, Field field)
+        {
+            string displayText = null;
+            var displayFieldName = field.Source.Split('&')
+                .FirstOrDefault(param => param.StartsWith("DisplayFieldName="));
+
+            if (!string.IsNullOrEmpty(displayFieldName))
+            {
+                displayText = option[displayFieldName.Replace("DisplayFieldName=", "")];
+            }
+
+            return displayText.IfNotNullOrEmpty() ?? option.DisplayName.IfNotNullOrEmpty() ?? option.Name;
         }
     }
 }
