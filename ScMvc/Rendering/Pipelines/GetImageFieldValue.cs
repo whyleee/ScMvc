@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ScMvc.Models;
+using ScMvc.Models.Mappers;
+using Sitecore.Data.Fields;
 using Sitecore.Pipelines.RenderField;
 
 namespace ScMvc.Rendering.Pipelines
@@ -12,18 +14,29 @@ namespace ScMvc.Rendering.Pipelines
     {
         public void Process(RenderFieldArgs args)
         {
-            if (args.FieldTypeKey != "image" || !(args is ModelRenderFieldArgs))
+            if (args.FieldTypeKey != "image")
             {
                 return;
             }
 
-            var model = ((ModelRenderFieldArgs) args).Model;
-            if (!(model is Image))
+            Image model;
+
+            if (args is ModelRenderFieldArgs)
+            {
+                model = (Image) ((ModelRenderFieldArgs) args).Model;
+            }
+            else
+            {
+                var field = new ImageField(args.GetField(), args.FieldValue);;
+                model = new ImageFieldToModelMapper().ToModel(field);
+            }
+
+            if (model == null)
             {
                 return;
             }
 
-            var html = ((Image) model).ToHtmlString();
+            var html = model.ToHtmlString();
 
             if (string.IsNullOrEmpty(html))
             {
