@@ -9,7 +9,9 @@
     <projectUrl>https://github.com/whyleee/ScMvc</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>- Added view renderings context item data source support</releaseNotes>
+    <releaseNotes>- Added page-editor support for date-times
+- Added page-editor support for droplinks and droptrees
+- A lot of different fixes</releaseNotes>
     <copyright>Copyright © Pavel Nezhencev (Creuna) 2014</copyright>
     <tags>Sitecore CMS pure MVC support view models page editor mapper binding</tags>
   </metadata>
