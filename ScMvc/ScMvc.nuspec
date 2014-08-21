@@ -9,9 +9,8 @@
     <projectUrl>https://github.com/whyleee/ScMvc</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>- Added MVC IHtmlString template hack code
-- Html.Editable: quick support for binary expressions, text field fallbacks handling
-- Mapper: automap of 'Url' properties, new Map override with created model</releaseNotes>
+    <releaseNotes>- Fixed item value provider
+- Removed rendering data source attribute, auto fallback to context item instead</releaseNotes>
     <copyright>Copyright © Pavel Nezhencev (Creuna) 2014</copyright>
     <tags>Sitecore CMS pure MVC support view models page editor mapper binding</tags>
   </metadata>
