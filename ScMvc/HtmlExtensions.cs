@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -12,6 +13,7 @@ using System.Web.Routing;
 using ScMvc.Aids;
 using ScMvc.Models;
 using ScMvc.Rendering;
+using Sitecore.Data.Items;
 
 namespace ScMvc
 {
@@ -103,6 +105,7 @@ namespace ScMvc
             {
                 renderFieldName = renderFieldName.Substring(renderFieldName.LastIndexOf('.') + 1);
             }
+
             // TODO: depends on 'ContentDictionary'
             //if (model.Item.Is<ContentDictionary>())
             //{
@@ -111,10 +114,16 @@ namespace ScMvc
 
             if (model.Item.Fields[renderFieldName] == null)
             {
-                throw new ArgumentException(string.Format(
-                    "Item '{0}' of template '{1}' doesn't have '{2}' field. Check name spelling or pass 'fieldName' param with correct field name (if view model name isn't equal to item field name).",
-                    model.Item.ID, model.Item.TemplateName, renderFieldName
-                ));
+                if (!TryFieldRenames(model.Item, ref renderFieldName,
+                    fn => "__" + fn.ToFriendlyString(),
+                    fn => "__" + Regex.Replace(fn.ToFriendlyString(), @"( [A-Z])", match => match.Value.ToLower())
+                ))
+                {
+                    throw new ArgumentException(string.Format(
+                        "Item '{0}' of template '{1}' doesn't have '{2}' field. Check name spelling or pass 'fieldName' param with correct field name (if view model name isn't equal to item field name).",
+                        model.Item.ID, model.Item.TemplateName, renderFieldName
+                    ));
+                }
             }
 
             var renderer = new ModelFieldRenderer
@@ -140,6 +149,22 @@ namespace ScMvc
 
             var output = renderer.Render(value, @params);
             return new HtmlString(output);
+        }
+
+        private static bool TryFieldRenames(Item item, ref string fieldName, params Func<string, string>[] renames)
+        {
+            foreach (var rename in renames)
+            {
+                var renamedFieldName = rename(fieldName);
+
+                if (item.Fields[renamedFieldName] != null)
+                {
+                    fieldName = renamedFieldName;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public static IDisposable WrapIn<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, IRenderToTag>> expression, object @params = null)
