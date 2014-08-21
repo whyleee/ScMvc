@@ -84,7 +84,6 @@
     <Compile Include="Models\Mappers\SitecoreItemToEditableModelMapper.cs" />
     <Compile Include="Models\Processors\IModelProcessor.cs" />
     <Compile Include="Models\Processors\PropertyModelProcessor.cs" />
-    <Compile Include="Models\RenderingDataSourceAttribute.cs" />
     <Compile Include="Models\Time.cs" />
     <Compile Include="Rendering\FillEmptyFieldsInPageEditorModelProcessor.cs" />
     <Compile Include="HtmlExtensions.cs" />

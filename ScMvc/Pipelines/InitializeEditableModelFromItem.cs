@@ -26,15 +26,13 @@ namespace ScMvc.Pipelines
                 return;
             }
 
-            Item item = null;
-            var modelType = args.Result.GetType();
-            var dataSource = GetDataSourceType(modelType);
+            Item item;
 
-            if (dataSource == RenderingDataSource.RenderingItem && !string.IsNullOrEmpty(args.Rendering.DataSource))
+            if (!string.IsNullOrEmpty(args.Rendering.DataSource))
             {
                 item = Sitecore.Context.Database.GetItem(args.Rendering.DataSource);
             }
-            else if (dataSource == RenderingDataSource.ContextItem)
+            else
             {
                 item = Sitecore.Context.Item;
             }
@@ -43,25 +41,13 @@ namespace ScMvc.Pipelines
             {
                 return;
             }
-            
+
+            var modelType = args.Result.GetType();
             var model = new SitecoreItemToEditableModelMapper().Map(item, modelType);
 
             _modelProcessor.Process(model);
 
             args.Result = model;
-        }
-
-        private RenderingDataSource GetDataSourceType(Type modelType)
-        {
-            var dataSource = RenderingDataSource.RenderingItem;
-            var dataSourceAttribute = modelType.GetCustomAttribute<RenderingDataSourceAttribute>();
-
-            if (dataSourceAttribute != null)
-            {
-                dataSource = dataSourceAttribute.DataSource;
-            }
-
-            return dataSource;
         }
     }
 }
