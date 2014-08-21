@@ -29,6 +29,11 @@ namespace ScMvc.Models.Mappers
             return Map(item, to, model: null);
         }
 
+        public virtual T MapField<T>(Item item, string fieldName)
+        {
+            return (T) MapField(item.Fields[fieldName], typeof (T));
+        }
+
         private IEditableItemModel Map(Item item, Type to, IEditableItemModel model)
         {
             Ensure.ArgumentNotNull(to, "to");
@@ -64,65 +69,71 @@ namespace ScMvc.Models.Mappers
                     continue;
                 }
 
-                var fieldValue = field.Value;
-                object value = fieldValue;
-
-                if (property.PropertyType == typeof(string))
-                {
-                    if (field.TypeKey == "rich text" && !string.IsNullOrEmpty(fieldValue))
-                    {
-                        value = LinkManager.ExpandDynamicLinks(fieldValue);
-                    }
-                    else
-                    {
-                        value = fieldValue;
-                    }
-                }
-                else if (property.PropertyType == typeof(bool))
-                {
-                    value = fieldValue == "1";
-                }
-                else if (property.PropertyType == typeof(int))
-                {
-                    value = string.IsNullOrEmpty(fieldValue) ? 0 : int.Parse(fieldValue, CultureInfo.InvariantCulture);
-                }
-                else if (property.PropertyType == typeof(double))
-                {
-                    value = string.IsNullOrEmpty(fieldValue) ? 0d : double.Parse(fieldValue, CultureInfo.InvariantCulture);
-                }
-                else if (property.PropertyType == typeof(DateTime))
-                {
-                    value = ((DateField)field).DateTime;
-                }
-                else if (property.PropertyType == typeof(Image))
-                {
-                    value = new ImageFieldToModelMapper().ToModel(field);
-                }
-                else if (property.PropertyType == typeof(Link))
-                {
-                    value = new LinkFieldToModelMapper().ToModel(field);
-                }
-                else if (property.PropertyType.Is(typeof(IEnumerable<ID>)))
-                {
-                    value = GetIds(fieldValue);
-                }
-                else if (property.PropertyType.Is<IEditableItemModel>() && (field.TypeKey == "droplink" || field.TypeKey == "droptree"))
-                {
-                    if (string.IsNullOrEmpty(fieldValue))
-                    {
-                        value = null;
-                    }
-                    else
-                    {
-                        var linkedItem = Sitecore.Context.Database.GetItem(fieldValue);
-                        value = Map(linkedItem, property.PropertyType);
-                    }
-                }
-
+                var value = MapField(field, property.PropertyType);
                 property.SetValue(target, value);
             }
 
             return target;
+        }
+
+        private object MapField(Field field, Type to)
+        {
+            var fieldValue = field.Value;
+            object value = fieldValue;
+
+            if (to == typeof(string))
+            {
+                if (field.TypeKey == "rich text" && !string.IsNullOrEmpty(fieldValue))
+                {
+                    value = LinkManager.ExpandDynamicLinks(fieldValue);
+                }
+                else
+                {
+                    value = fieldValue;
+                }
+            }
+            else if (to == typeof(bool))
+            {
+                value = fieldValue == "1";
+            }
+            else if (to == typeof(int))
+            {
+                value = string.IsNullOrEmpty(fieldValue) ? 0 : int.Parse(fieldValue, CultureInfo.InvariantCulture);
+            }
+            else if (to == typeof(double))
+            {
+                value = string.IsNullOrEmpty(fieldValue) ? 0d : double.Parse(fieldValue, CultureInfo.InvariantCulture);
+            }
+            else if (to == typeof(DateTime))
+            {
+                value = ((DateField)field).DateTime;
+            }
+            else if (to == typeof(Image))
+            {
+                value = new ImageFieldToModelMapper().ToModel(field);
+            }
+            else if (to == typeof(Link))
+            {
+                value = new LinkFieldToModelMapper().ToModel(field);
+            }
+            else if (to.Is(typeof(IEnumerable<ID>)))
+            {
+                value = GetIds(fieldValue);
+            }
+            else if (to.Is<IEditableItemModel>() && (field.TypeKey == "droplink" || field.TypeKey == "droptree"))
+            {
+                if (string.IsNullOrEmpty(fieldValue))
+                {
+                    value = null;
+                }
+                else
+                {
+                    var linkedItem = Sitecore.Context.Database.GetItem(fieldValue);
+                    value = Map(linkedItem, to);
+                }
+            }
+
+            return value;
         }
 
         private IList<ID> GetIds(string value)

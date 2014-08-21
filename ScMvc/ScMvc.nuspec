@@ -9,8 +9,7 @@
     <projectUrl>https://github.com/whyleee/ScMvc</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>- Fixed item value provider
-- Removed rendering data source attribute, auto fallback to context item instead</releaseNotes>
+    <releaseNotes>- Mapper: added MapField method</releaseNotes>
     <copyright>Copyright © Pavel Nezhencev (Creuna) 2014</copyright>
     <tags>Sitecore CMS pure MVC support view models page editor mapper binding</tags>
   </metadata>
