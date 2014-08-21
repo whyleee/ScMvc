@@ -93,6 +93,12 @@ namespace ScMvc
             Ensure.ArgumentNotNull(model.Item, "model.Item");
 
             var renderFieldName = fieldName.IfNotNullOrEmpty() ?? ExpressionHelper.GetExpressionText(expression);
+
+            if (string.IsNullOrEmpty(renderFieldName) && expression.Body is BinaryExpression)
+            {
+                renderFieldName = ((BinaryExpression) expression.Body).Left.ToString();
+            }
+
             if (renderFieldName.Contains('.'))
             {
                 renderFieldName = renderFieldName.Substring(renderFieldName.LastIndexOf('.') + 1);
@@ -122,6 +128,10 @@ namespace ScMvc
             if (value is IEditableModel)
             {
                 ((IEditableModel)value).IsEditMode = true;
+            }
+            if (value is string && !string.IsNullOrEmpty((string) value))
+            {
+                renderer.OverrideFieldValue((string) value);
             }
             if (display != null)
             {
