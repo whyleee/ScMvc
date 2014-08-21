@@ -35,26 +35,17 @@ namespace ScMvc.Binding
 
         private Item GetDataSourceOrContextItem(Sitecore.Mvc.Presentation.Rendering rendering)
         {
-            if (rendering != null)
-            {
-                return GetDataSourceItem(rendering);
-            }
-            else
-            {
-                return Sitecore.Context.Item;
-            }
+            return GetDataSourceItem(rendering) ?? Sitecore.Context.Item;
         }
 
         private Item GetDataSourceItem(Sitecore.Mvc.Presentation.Rendering rendering)
         {
-            var dataSource = rendering.DataSource;
-
-            if (string.IsNullOrEmpty(dataSource))
+            if (rendering == null || string.IsNullOrEmpty(rendering.DataSource))
             {
                 return null;
             }
 
-            return Sitecore.Context.Database.GetItem(dataSource);
+            return Sitecore.Context.Database.GetItem(rendering.DataSource);
         }
     }
 
