@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ScMvc.Aids;
+using ScMvc.Models.Mappers;
+using Sitecore.Data.Items;
 
 namespace ScMvc.Models
 {
@@ -50,6 +52,11 @@ namespace ScMvc.Models
             }
 
             return otherAttributes;
+        }
+
+        public static T MapFrom<T>(this T model, Item item, SitecoreItemToEditableModelMapper mapper) where T : IEditableItemModel
+        {
+            return mapper.Map(item, model);
         }
     }
 }

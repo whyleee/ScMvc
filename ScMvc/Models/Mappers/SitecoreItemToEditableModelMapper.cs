@@ -17,7 +17,19 @@ namespace ScMvc.Models.Mappers
             return (T) Map(item, typeof (T));
         }
 
+        public virtual T Map<T>(Item item, T model) where T : IEditableItemModel
+        {
+            Ensure.ArgumentNotNull(model, "model");
+
+            return (T) Map(item, model.GetType(), model);
+        }
+
         public virtual IEditableItemModel Map(Item item, Type to)
+        {
+            return Map(item, to, model: null);
+        }
+
+        private IEditableItemModel Map(Item item, Type to, IEditableItemModel model)
         {
             Ensure.ArgumentNotNull(to, "to");
 
@@ -26,7 +38,7 @@ namespace ScMvc.Models.Mappers
                 throw new ArgumentException(string.Format("Target type should implement '{0}' interface", to.FullName), "to");
             }
 
-            var target = (IEditableItemModel) Activator.CreateInstance(to);
+            var target = model ?? (IEditableItemModel) Activator.CreateInstance(to);
             var isEditMode = Sitecore.Context.PageMode.IsPageEditorEditing;
 
             if (item == null)
@@ -39,6 +51,12 @@ namespace ScMvc.Models.Mappers
 
             foreach (var property in to.GetProperties())
             {
+                if (property.Name == "Url")
+                {
+                    property.SetValue(target, LinkManager.GetItemUrl(item));
+                    continue;
+                }
+
                 var field = item.Fields[property.Name];
 
                 if (field == null)
