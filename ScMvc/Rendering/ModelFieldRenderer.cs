@@ -50,8 +50,7 @@ namespace ScMvc.Rendering
                 RawParameters = this.Parameters,
                 RenderParameters = this.RenderParameters,
                 DisableWebEdit = this.DisableWebEditing,
-                WebEditParameters = webeditParams,
-                DefaultText = this.DefaultText // TODO: don't sure this will work without decompiling Sitecore stuff
+                WebEditParameters = webeditParams
             };
             if (item.Fields[this.FieldName].TypeKey == "multi-line text")
             {

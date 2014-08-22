@@ -138,11 +138,11 @@ namespace ScMvc
             {
                 ((IEditableModel)value).IsEditMode = true;
             }
-            if (value is string && !string.IsNullOrEmpty((string) value))
+            if (value is string && !string.IsNullOrEmpty((string) value) && (string) value != "[Empty]")
             {
                 renderer.OverrideFieldValue((string) value);
             }
-            if (display != null)
+            if (display != null && display != "[Empty]")
             {
                 renderer.OverrideFieldValue(display);
             }
