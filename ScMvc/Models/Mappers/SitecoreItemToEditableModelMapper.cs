@@ -56,6 +56,11 @@ namespace ScMvc.Models.Mappers
 
             foreach (var property in to.GetProperties())
             {
+                if (model != null && property.GetValue(model) != null)
+                {
+                    continue;
+                }
+
                 if (property.Name == "Url")
                 {
                     property.SetValue(target, LinkManager.GetItemUrl(item));
