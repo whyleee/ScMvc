@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/whyleee/ScMvc</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>- Fixed time format culture</releaseNotes>
+    <releaseNotes>- Added possibility to exclude properties from mapping</releaseNotes>
     <copyright>Copyright © Pavel Nezhencev (Creuna) 2014</copyright>
     <tags>Sitecore CMS pure MVC support view models page editor mapper binding</tags>
   </metadata>

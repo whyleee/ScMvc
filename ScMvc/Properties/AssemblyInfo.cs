@@ -8,5 +8,5 @@
 [assembly: AssemblyCopyright("Copyright © Pavel Nezhencev (Creuna) 2014")]
 
 // Product version
-[assembly: AssemblyVersion("0.4.8")]
-[assembly: AssemblyFileVersion("0.4.8")]
+[assembly: AssemblyVersion("0.4.9")]
+[assembly: AssemblyFileVersion("0.4.9")]

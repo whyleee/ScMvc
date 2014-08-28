@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using ScMvc.Aids;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
@@ -56,6 +57,11 @@ namespace ScMvc.Models.Mappers
 
             foreach (var property in to.GetProperties())
             {
+                if (property.GetCustomAttribute<IgnoreMapAttribute>() != null)
+                {
+                    continue;
+                }
+
                 if (model != null && property.GetValue(model) != null)
                 {
                     continue;
