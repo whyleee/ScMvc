@@ -37,6 +37,11 @@ namespace ScMvc.Rendering
 
         protected override void ProcessModelProperty(object model, PropertyInfo property, object value)
         {
+            if (property.GetCustomAttribute<IgnoreEditAttribute>() != null)
+            {
+                return;
+            }
+
             if (property.PropertyType == typeof (string) && string.IsNullOrEmpty((string) value))
             {
                 property.SetValue(model, "[Empty]");

@@ -81,6 +81,7 @@
     <Compile Include="Aids\InternalHelpers.cs" />
     <Compile Include="Aids\SitecoreUtil.cs" />
     <Compile Include="Initializer.cs" />
+    <Compile Include="Models\IgnoreEditAttribute.cs" />
     <Compile Include="Models\Mappers\SitecoreItemToEditableModelMapper.cs" />
     <Compile Include="Models\Processors\IModelProcessor.cs" />
     <Compile Include="Models\Processors\PropertyModelProcessor.cs" />
