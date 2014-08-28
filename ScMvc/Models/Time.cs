@@ -101,7 +101,7 @@ namespace ScMvc.Models
                 tag.Attributes.Add("sc-part-of", "field");
             }
 
-            tag.InnerHtml = Value.ToString(Format);
+            tag.InnerHtml = Value.ToString(Format, Sitecore.Context.Language.CultureInfo);
 
             tag.MergeAttributes(Attributes);
 
