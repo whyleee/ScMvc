@@ -116,14 +116,7 @@ namespace ScMvc.Models
 
                 if (addMediaQueryToUrl)
                 {
-                    var src = img.Attributes["src"];
-                    img.Attributes["src"] = src + string.Format("{0}w={1}&h={2}",
-                        src.Contains('?') ? ':' : '?', Width, Height);
-
-                    if (Crop)
-                    {
-                        img.Attributes["src"] = img.Attributes["src"] + "&useCustomFunctions=1&centerCrop=1";
-                    }
+                    img.Attributes["src"] = GetTransformedImageUrl();
                 }
             }
             else if (OrigWidth > 0 && OrigHeight > 0)
@@ -154,6 +147,23 @@ namespace ScMvc.Models
             img.MergeAttributes(Attributes);
 
             return img.ToString(TagRenderMode.SelfClosing);
+        }
+
+        public string GetTransformedImageUrl()
+        {
+            var url = Src;
+
+            if (Width > 0 && Height > 0)
+            {
+                url = url + string.Format("{0}w={1}&h={2}", url.Contains('?') ? ':' : '?', Width, Height);
+            }
+
+            if (Crop)
+            {
+                url = url + "&useCustomFunctions=1&centerCrop=1";
+            }
+
+            return url ?? "";
         }
     }
 }
