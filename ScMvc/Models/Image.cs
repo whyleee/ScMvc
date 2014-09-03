@@ -156,11 +156,11 @@ namespace ScMvc.Models
             if (Width > 0 && Height > 0)
             {
                 url = url + string.Format("{0}w={1}&h={2}", url.Contains('?') ? ':' : '?', Width, Height);
-            }
 
-            if (Crop)
-            {
-                url = url + "&useCustomFunctions=1&centerCrop=1";
+                if (Crop)
+                {
+                    url = url + "&useCustomFunctions=1&centerCrop=1";
+                }
             }
 
             return url ?? "";
