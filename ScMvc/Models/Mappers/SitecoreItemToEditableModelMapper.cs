@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using ScMvc.Aids;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
@@ -67,6 +68,12 @@ namespace ScMvc.Models.Mappers
                     continue;
                 }
 
+                if (property.Name == "DisplayName")
+                {
+                    property.SetValue(target, item.DisplayName);
+                    continue;
+                }
+
                 if (property.Name == "Url")
                 {
                     property.SetValue(target, LinkManager.GetItemUrl(item));
@@ -74,10 +81,18 @@ namespace ScMvc.Models.Mappers
                 }
 
                 var field = item.Fields[property.Name];
-
+                var propertyName = property.Name;
                 if (field == null)
                 {
-                    continue;
+                    if (!HtmlExtensions.TryFieldRenames(item, ref propertyName,
+                        fn => "__" + fn.ToFriendlyString(),
+                        fn => "__" + Regex.Replace(fn.ToFriendlyString(), @"( [A-Z])", match => match.Value.ToLower())
+                        ))
+                    {
+                        continue;
+                    }
+
+                    field = item.Fields[propertyName];
                 }
 
                 var value = MapField(field, property.PropertyType);

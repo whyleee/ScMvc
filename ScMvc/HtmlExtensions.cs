@@ -151,7 +151,7 @@ namespace ScMvc
             return new HtmlString(output);
         }
 
-        private static bool TryFieldRenames(Item item, ref string fieldName, params Func<string, string>[] renames)
+        public static bool TryFieldRenames(Item item, ref string fieldName, params Func<string, string>[] renames)
         {
             foreach (var rename in renames)
             {
