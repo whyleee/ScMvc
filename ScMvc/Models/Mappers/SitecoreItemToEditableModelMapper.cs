@@ -68,6 +68,11 @@ namespace ScMvc.Models.Mappers
                     continue;
                 }
 
+                if (property.Name == "Name")
+                {
+                    property.SetValue(target, item.Name);
+                }
+
                 if (property.Name == "DisplayName")
                 {
                     property.SetValue(target, item.DisplayName);
@@ -81,18 +86,17 @@ namespace ScMvc.Models.Mappers
                 }
 
                 var field = item.Fields[property.Name];
-                var propertyName = property.Name;
+
                 if (field == null)
                 {
-                    if (!HtmlExtensions.TryFieldRenames(item, ref propertyName,
-                        fn => "__" + fn.ToFriendlyString(),
-                        fn => "__" + Regex.Replace(fn.ToFriendlyString(), @"( [A-Z])", match => match.Value.ToLower())
-                        ))
+                    // TODO: probably this is too slow to call on every model field
+                    // consided hardcoded appoach
+                    field = TryGetInternalField(item, property.Name);
+
+                    if (field == null)
                     {
                         continue;
                     }
-
-                    field = item.Fields[propertyName];
                 }
 
                 var value = MapField(field, property.PropertyType);
@@ -165,6 +169,37 @@ namespace ScMvc.Models.Mappers
         private IList<ID> GetIds(string value)
         {
             return value.Split('|').Where(ID.IsID).Select(ID.Parse).ToList();
+        }
+
+        internal static Field TryGetInternalField(Item item, string mappedFieldName)
+        {
+            var internalFieldName = mappedFieldName;
+
+            if (TryFieldRenames(item, ref internalFieldName,
+                fn => "__" + fn.ToFriendlyString(),
+                fn => "__" + Regex.Replace(fn.ToFriendlyString(), @"( [A-Z])", match => match.Value.ToLower())
+                ))
+            {
+                return item.Fields[internalFieldName];
+            }
+
+            return null;
+        }
+
+        private static bool TryFieldRenames(Item item, ref string fieldName, params Func<string, string>[] renames)
+        {
+            foreach (var rename in renames)
+            {
+                var renamedFieldName = rename(fieldName);
+
+                if (item.Fields[renamedFieldName] != null)
+                {
+                    fieldName = renamedFieldName;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

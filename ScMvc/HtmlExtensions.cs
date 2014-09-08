@@ -12,6 +12,7 @@ using System.Web.Mvc.Html;
 using System.Web.Routing;
 using ScMvc.Aids;
 using ScMvc.Models;
+using ScMvc.Models.Mappers;
 using ScMvc.Rendering;
 using Sitecore.Data.Items;
 
@@ -114,15 +115,17 @@ namespace ScMvc
 
             if (model.Item.Fields[renderFieldName] == null)
             {
-                if (!TryFieldRenames(model.Item, ref renderFieldName,
-                    fn => "__" + fn.ToFriendlyString(),
-                    fn => "__" + Regex.Replace(fn.ToFriendlyString(), @"( [A-Z])", match => match.Value.ToLower())
-                ))
+                var internalField = SitecoreItemToEditableModelMapper.TryGetInternalField(model.Item, renderFieldName);
+                if (internalField == null)
                 {
                     throw new ArgumentException(string.Format(
                         "Item '{0}' of template '{1}' doesn't have '{2}' field. Check name spelling or pass 'fieldName' param with correct field name (if view model name isn't equal to item field name).",
                         model.Item.ID, model.Item.TemplateName, renderFieldName
                     ));
+                }
+                else
+                {
+                    renderFieldName = internalField.Name;
                 }
             }
 
@@ -149,22 +152,6 @@ namespace ScMvc
 
             var output = renderer.Render(value, @params);
             return new HtmlString(output);
-        }
-
-        public static bool TryFieldRenames(Item item, ref string fieldName, params Func<string, string>[] renames)
-        {
-            foreach (var rename in renames)
-            {
-                var renamedFieldName = rename(fieldName);
-
-                if (item.Fields[renamedFieldName] != null)
-                {
-                    fieldName = renamedFieldName;
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         public static IDisposable WrapIn<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, IRenderToTag>> expression, object @params = null)
