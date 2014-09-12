@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using ScMvc.Aids;
+using Sitecore.Configuration;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
@@ -81,7 +82,7 @@ namespace ScMvc.Models.Mappers
 
                 if (property.Name == "Url")
                 {
-                    property.SetValue(target, LinkManager.GetItemUrl(item));
+                    property.SetValue(target, item.GetFriendlyUrl());
                     continue;
                 }
 
@@ -115,7 +116,7 @@ namespace ScMvc.Models.Mappers
             {
                 if (field.TypeKey == "rich text" && !string.IsNullOrEmpty(fieldValue))
                 {
-                    value = LinkManager.ExpandDynamicLinks(fieldValue);
+                    value = LinkManager.ExpandDynamicLinks(fieldValue, Settings.Rendering.SiteResolving);
                 }
                 else
                 {

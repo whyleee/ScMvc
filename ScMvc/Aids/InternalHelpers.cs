@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Sitecore.Configuration;
+using Sitecore.Data.Items;
+using Sitecore.Links;
 
 namespace ScMvc.Aids
 {
@@ -59,6 +62,14 @@ namespace ScMvc.Aids
         public static string ToFriendlyString(this string text)
         {
             return Regex.Replace(text, @"([a-z](?=[A-Z]|\d)|[A-Z](?=[A-Z][a-z]|\d)|\d(?=[A-Z][a-z]))", "$1 ");
+        }
+
+        public static string GetFriendlyUrl(this Item item)
+        {
+            var urlOptions = LinkManager.GetDefaultUrlOptions();
+            urlOptions.SiteResolving = Settings.Rendering.SiteResolving;
+            
+            return LinkManager.GetItemUrl(item, urlOptions);
         }
     }
 }

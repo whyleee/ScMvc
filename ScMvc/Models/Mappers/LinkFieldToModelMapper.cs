@@ -5,7 +5,6 @@ using System.Net;
 using ScMvc.Aids;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
-using Sitecore.Links;
 using Sitecore.Resources.Media;
 
 namespace ScMvc.Models.Mappers
@@ -50,7 +49,7 @@ namespace ScMvc.Models.Mappers
                 var targetItem = field.TargetItem;
                 if (targetItem != null)
                 {
-                    link.Url = LinkManager.GetItemUrl(targetItem);
+                    link.Url = targetItem.GetFriendlyUrl();
                     link.Text = link.Text.IfNotNullOrEmpty() ?? targetItem.DisplayName.IfNotNullOrEmpty() ?? targetItem.Name;
                 }
                 else
