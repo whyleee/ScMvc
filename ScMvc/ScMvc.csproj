@@ -79,7 +79,6 @@
   <ItemGroup>
     <Compile Include="Aids\Ensure.cs" />
     <Compile Include="Aids\InternalHelpers.cs" />
-    <Compile Include="Aids\SitecoreUtil.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="Models\IgnoreEditAttribute.cs" />
     <Compile Include="Models\IgnoreMapAttribute.cs" />
@@ -104,12 +103,6 @@
     <Compile Include="Binding\SitecoreItemModelBinder.cs" />
     <Compile Include="Binding\SitecoreItemValueProvider.cs" />
     <Compile Include="Rendering\FillEmptyModelFieldsInPageEditorActionFilter.cs" />
-    <Compile Include="Rendering\ModelFieldRenderer.cs" />
-    <Compile Include="Rendering\Pipelines\GetWrappedInTimeTagDateFieldValue.cs" />
-    <Compile Include="Rendering\Pipelines\GetDropLinkFieldValue.cs" />
-    <Compile Include="Rendering\Pipelines\GetDropTreeFieldValue.cs" />
-    <Compile Include="Rendering\Pipelines\GetLinkFieldValue.cs" />
-    <Compile Include="Rendering\SelectControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

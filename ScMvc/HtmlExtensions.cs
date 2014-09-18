@@ -11,6 +11,9 @@ using ScMvc.Aids;
 using ScMvc.Models;
 using ScMvc.Models.Mappers;
 using ScMvc.Rendering;
+using Sitecore.Collections;
+using Sitecore.Web;
+using Sitecore.Web.UI.WebControls;
 
 namespace ScMvc
 {
@@ -126,13 +129,15 @@ namespace ScMvc
                 }
             }
 
-            var renderer = new ModelFieldRenderer
+            var renderer = new FieldRenderer
             {
                 Item = model.Item,
                 FieldName = renderFieldName,
                 //DefaultText = !isComplexField && value != null ? value.ToString() : "[" + renderFieldName + "]"
-                DefaultText = "[" + renderFieldName + "]"
+                //DefaultText = "[" + renderFieldName + "]",
+                Parameters = GetParamsQueryString(@params)
             };
+            renderer.RenderParameters.Add("default-text", "[" + renderFieldName + "]");
 
             if (value is IEditableModel)
             {
@@ -147,7 +152,7 @@ namespace ScMvc
                 renderer.OverrideFieldValue(display);
             }
 
-            var output = renderer.Render(value, @params);
+            var output = renderer.Render();
             return new HtmlString(output);
         }
 
@@ -164,6 +169,25 @@ namespace ScMvc
             html.ViewContext.Writer.Write(value.StartTag());
 
             return new EndTagWriter(html.ViewContext.Writer, value.EndTag());
+        }
+
+        private static string GetParamsQueryString(object @params)
+        {
+            var modelParams = new RouteValueDictionary(@params);
+
+            if (!modelParams.Any())
+            {
+                return "";
+            }
+
+            var dict = new SafeDictionary<string>();
+
+            foreach (var param in modelParams)
+            {
+                dict.Add(param.Key, Convert.ToString(param.Value));
+            }
+            
+            return WebUtil.BuildQueryString(dict, false);
         }
 
         private static T GetCopyWithParams<T>(T value, object @params, bool isComplexValue)
