@@ -14,6 +14,7 @@ using Sitecore.Xml.Xsl;
 
 namespace ScMvc.Rendering
 {
+    // TODO: review, and remove "model" overloads here
     public class ModelFieldRenderer : FieldRenderer
     {
         private string fieldValue = string.Empty;
@@ -33,14 +34,19 @@ namespace ScMvc.Rendering
                 return new RenderFieldResult();
             }
             var modelParams = new RouteValueDictionary(@params);
-            var webeditParams = new SafeDictionary<string>();
+            //var webeditParams = new SafeDictionary<string>();
+            //foreach (var param in modelParams)
+            //{
+            //    webeditParams.Add(param.Key, param.Value.ToString());
+            //}
+            var dict = new SafeDictionary<string>();
             foreach (var param in modelParams)
             {
-                webeditParams.Add(param.Key, param.Value.ToString());
+                dict.Add(param.Key, Convert.ToString(param.Value));
             }
-            var renderFieldArgs = new ModelRenderFieldArgs
+            this.Parameters = WebUtil.BuildQueryString(dict, false);
+            var renderFieldArgs = new RenderFieldArgs
             {
-                Model = model,
                 After = this.After,
                 Before = this.Before,
                 EnclosingTag = this.EnclosingTag,
@@ -50,7 +56,7 @@ namespace ScMvc.Rendering
                 RawParameters = this.Parameters,
                 RenderParameters = this.RenderParameters,
                 DisableWebEdit = this.DisableWebEditing,
-                WebEditParameters = webeditParams
+                //WebEditParameters = webeditParams
             };
             if (item.Fields[this.FieldName].TypeKey == "multi-line text")
             {

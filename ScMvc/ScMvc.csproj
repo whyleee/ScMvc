@@ -105,11 +105,9 @@
     <Compile Include="Binding\SitecoreItemValueProvider.cs" />
     <Compile Include="Rendering\FillEmptyModelFieldsInPageEditorActionFilter.cs" />
     <Compile Include="Rendering\ModelFieldRenderer.cs" />
-    <Compile Include="Rendering\ModelRenderFieldArgs.cs" />
-    <Compile Include="Rendering\Pipelines\GetDateFieldValue.cs" />
+    <Compile Include="Rendering\Pipelines\GetWrappedInTimeTagDateFieldValue.cs" />
     <Compile Include="Rendering\Pipelines\GetDropLinkFieldValue.cs" />
     <Compile Include="Rendering\Pipelines\GetDropTreeFieldValue.cs" />
-    <Compile Include="Rendering\Pipelines\GetImageFieldValue.cs" />
     <Compile Include="Rendering\Pipelines\GetLinkFieldValue.cs" />
     <Compile Include="Rendering\SelectControl.cs" />
   </ItemGroup>

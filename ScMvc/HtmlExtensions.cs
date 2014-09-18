@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
@@ -14,12 +11,12 @@ using ScMvc.Aids;
 using ScMvc.Models;
 using ScMvc.Models.Mappers;
 using ScMvc.Rendering;
-using Sitecore.Data.Items;
 
 namespace ScMvc
 {
     public static class HtmlExtensions
     {
+        // TODO: I hate this huge method
         public static IHtmlString Editable<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression,
             string fieldName = null, string display = null, IEditableItemModel model = null, object @params = null)
             where TModel : IEditableItemModel
